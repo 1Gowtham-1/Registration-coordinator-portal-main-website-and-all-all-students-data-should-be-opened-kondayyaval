@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Coordinator Portal</title>
+    <style>/* Base Styles */
+ /* Global print-specific styles to hide non-print-area content */
+        @media print {
+            body > *:not(.print-only) {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+                position: absolute; /* Position correctly for printing */
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: auto;
+                background-color: white; /* Ensure white background for print */
+            }
+            /* Adjust other print-specific styles here if needed */
+            @page {
+                size: A4 portrait;
+                margin: 15mm;
+            }
+        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f4f8; /* Light blue-grey background */
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to top for longer content */
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    transition: all 0.3s ease;
+}
+
+h1, h2, h3 {
+    color: #2c3e50; /* Darker blue for headings */
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    color: #34495e;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 10px;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #3498db;
+}
+
+/* Form and Input Styles */
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.mandatory {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="number"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #c9d6df; /* Soft border */
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fdfefe;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    -webkit-appearance: none; /* Remove default browser styling for select */
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #3498db; /* Focus highlight */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+select {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.6-6.4H18.8c-5%200-9.3%201.8-12.9%205.5-3.6%203.7-5.4%208-5.4%2012.8%200%204.8%201.8%209.1%205.4%2012.8L139.3%20268.2c3.6%203.7%207.8%205.5%2012.8%205.5s9.2-1.8%2012.8-5.5L287%2095.4c3.6-3.6%205.4-7.8%205.4-12.8%200-4.8-1.8-9.1-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 12px top 50%;
+    background-size: 12px auto;
+    padding-right: 30px;
+}
+
+/* Button Styles */
+button {
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #3498db, #2980b9); /* Blue gradient */
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    display: inline-block;
+    margin: 0 auto; /* For block level buttons if needed */
+}
+
+button:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #2980b9, #3498db);
+}
+
+button:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Specific Button Adjustments */
+#loginButton {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin-top: 25px;
+}
+
+.main-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.main-menu button {
+    padding: 20px;
+    font-size: 1.1rem;
+    height: 100px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #2ecc71, #27ae60); /* Green gradient */
+}
+
+.main-menu button:nth-child(2) {
+    background: linear-gradient(135deg, #3498db, #2980b9); /* Blue */
+}
+.main-menu button:nth-child(3) {
+    background: linear-gradient(135deg, #f39c12, #e67e22); /* Orange */
+}
+.main-menu button:nth-child(4) {
+    background: linear-gradient(135deg, #9b59b6, #8e44ad); /* Purple */
+}
+
+.main-menu button:hover:not(:disabled) {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* Login Screen Styles */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 40px); /* Account for padding */
+    text-align: center;
+}
+
+.login-box {
+    background: linear-gradient(135deg, #ecf0f1, #bdc3c7); /* Light grey gradient */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.login-box:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+/* Portal Content Display */
+.portal-content {
+    display: none; /* Hidden by default */
+}
+
+.batch-selection-area {
+    background-color: #e8f5e9; /* Light green */
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+    border: 1px solid #c8e6c9;
+}
+
+.batch-selection-area label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #2e7d32;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.batch-selection-area select {
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
+    border: 1px solid #a5d6a7;
+    background-color: #ffffff;
+}
+
+
+.section-content {
+    display: none; /* Hidden by default */
+    padding-top: 25px;
+    border-top: 1px dashed #cccccc;
+    margin-top: 25px;
+}
+
+.sub-section-content {
+    background-color: #f8fcfd;
+    padding: 25px;
+    border-radius: 10px;
+    margin-top: 20px;
+    border: 1px solid #e0eff5;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.03);
+}
+
+/* Message Styles */
+.message {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-align: center;
+    word-wrap: break-word; /* Ensure long messages break correctly */
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Data Display Areas (for lists and profiles) */
+.data-display-area {
+    background-color: #fefefe;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 100px;
+    margin-top: 20px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.student-card {
+    background-color: #f0f8ff; /* Very light blue */
+    border: 1px solid #b3e5fc;
+    border-left: 5px solid #2196f3; /* Accent border */
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.05rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.student-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    background-color: #e3f2fd;
+}
+
+.student-card span {
+    font-weight: 500;
+    color: #1a237e; /* Darker blue for name */
+}
+
+.student-card button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.student-card button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Student Profile Display */
+#studentProfileDisplay {
+    background-color: #ffffff;
+    border: 1px solid #cfd8dc;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+    margin-top: 20px;
+}
+
+#studentProfileDisplay h3 {
+    color: #3f51b5; /* Deeper blue for profile title */
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+#profileDetails p {
+    margin-bottom: 10px;
+    padding: 5px 0;
+    border-bottom: 1px dashed #f0f0f0;
+    display: flex;
+    flex-wrap: wrap; /* Allow content to wrap */
+}
+
+#profileDetails p strong {
+    color: #455a64; /* Dark grey for labels */
+    flex: 0 0 180px; /* Fixed width for labels */
+    margin-right: 15px;
+}
+
+#profileDetails p span {
+    flex-grow: 1;
+    color: #607d8b; /* Lighter grey for values */
+}
+
+.profile-footer {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #78909c;
+}
+
+.profile-footer p {
+    margin: 5px 0;
+}
+
+#studentProfileDisplay button {
+    display: block;
+    margin: 25px auto 0;
+    max-width: 200px;
+    background: linear-gradient(135deg, #4CAF50, #388E3C); /* Green print button */
+}
+
+/* Unfilled Data Specifics */
+.unfilled-student-card {
+    background-color: #fff3e0; /* Light orange for warning */
+    border: 1px solid #ffcc80;
+    border-left: 5px solid #ff9800;
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.unfilled-student-card strong {
+    color: #e65100; /* Darker orange */
+}
+
+.unfilled-student-card ul {
+    margin-top: 8px;
+    margin-left: 20px;
+    list-style-type: disc;
+    color: #795548;
+}
+
+/* Loading Spinner */
+.loading-overlay {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    visibility: hidden; /* Use visibility for smooth transition */
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.loading-overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.spinner {
+    border: 6px solid #e0e0e0;
+    border-top: 6px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1.2s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+    font-size: 1.4rem;
+    color: #555;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 20px;
+        margin: 10px auto;
+        border-radius: 10px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.3rem;
+    }
+
+    .login-box {
+        padding: 30px;
+    }
+
+    .main-menu {
+        grid-template-columns: 1fr; /* Stack buttons on mobile */
+        gap: 10px;
+    }
+
+    .main-menu button {
+        height: 70px;
+        font-size: 1rem;
+        padding: 15px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="number"],
+    input[type="password"],
+    textarea,
+    select {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+    }
+
+    button {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    #loginButton {
+        max-width: 180px;
+    }
+
+    .section-content, .sub-section-content {
+        padding: 15px;
+        margin-top: 15px;
+    }
+
+    .student-card {
+        flex-direction: column; /* Stack name and button */
+        align-items: flex-start;
+        padding: 12px 15px;
+    }
+
+    .student-card button {
+        margin-top: 10px;
+        width: 100%;
+        max-width: 150px;
+    }
+
+    #profileDetails p {
+        flex-direction: column; /* Stack label and value */
+        align-items: flex-start;
+    }
+
+    #profileDetails p strong {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+
+    .batch-selection-area select {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    .login-box {
+        padding: 25px;
+    }
+
+    .batch-selection-area {
+        padding: 15px;
+    }
+
+    .student-card {
+        font-size: 0.95rem;
+    }
+
+    .unfilled-student-card {
+        font-size: 0.95rem;
+    }
+
+    .loading-text {
+        font-size: 1.2rem;
+    }
+}
+</style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p class="loading-text">Processing...</p>
+    </div>
+
+    <div class="container">
+        <div id="loginScreen" class="login-container">
+            <div class="login-box">
+                <h1>REGISTER COORDINATOR PORTAL</h1>
+                
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Enter username" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Enter password" required>
+                </div>
+                <button id="loginButton">Login</button>
+                <p id="loginMessage" class="message error"></p>
+            </div>
+        </div>
+
+        <div id="portalContent" class="portal-content">
+            <h1>Welcome to the REGISTER COORDINATOR PORTAL</h1>
+<h3> REGISTER COORDINATOR :SRAVANI VINDULA</h3>
+
+            <div class="batch-selection-area">
+                <label for="batchSelect">Select Batch:</label>
+                <select id="batchSelect">
+                    <option value="">-- Select a Batch --</option>
+                    <option value="Kids Batch">Kids Batch</option>
+                    <option value="Group-1">Group-1</option>
+                    <option value="Group-2(A)">Group-2(A)</option>
+                    <option value="Group-2(B)">Group-2(B)</option>
+                </select>
+                <p id="batchMessage" class="message error"></p>
+            </div>
+
+            <div class="main-menu" id="mainMenu">
+                <button id="checkUnfilledBtn" disabled>Check Students with Unfilled Data</button>
+                <button id="addStudentBtn" disabled>Add Student Data</button>
+                <button id="updateStudentBtn" disabled>Update Student Data</button>
+                <button id="viewPrintStudentBtn" disabled>Print/View Student Data</button>
+            </div>
+
+            <div id="checkUnfilledSection" class="section-content">
+                <h2>Students with Unfilled Data</h2>
+                <div id="unfilledStudentsList" class="data-display-area">
+                    <p>Select a batch and click "Check Students with Unfilled Data" to see results.</p>
+                </div>
+                <p id="unfilledMessage" class="message"></p>
+            </div>
+
+            <div id="addStudentSection" class="section-content">
+                <h2>Add New Student Data</h2>
+                <form id="addStudentForm">
+                    <div class="form-group">
+                        <label for="addSerialNumber">Serial Number (Auto-generated):</label>
+                        <input type="text" id="addSerialNumber" readonly disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="addStudentName">Student Name <span class="mandatory">*</span>:</label>
+                        <input type="text" id="addStudentName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addRollNumber">Roll Number:</label>
+                        <input type="text" id="addRollNumber">
+                    </div>
+                    <div class="form-group">
+                        <label for="addDateOfBirth">Date of Birth:</label>
+                        <input type="date" id="addDateOfBirth">
+                    </div>
+                    <div class="form-group">
+                        <label for="addAdmissionDate">Admission Date:</label>
+                        <input type="date" id="addAdmissionDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="addEmailID">Email ID:</label>
+                        <input type="email" id="addEmailID">
+                    </div>
+                    <div class="form-group">
+                        <label for="addFatherName">Father Name:</label>
+                        <input type="text" id="addFatherName">
+                    </div>
+                    <div class="form-group">
+                        <label for="addMotherName">Mother Name:</label>
+                        <input type="text" id="addMotherName">
+                    </div>
+                    <div class="form-group">
+                        <label for="addFatherMobileNumber">Father's Mobile Number:</label>
+                        <input type="tel" id="addFatherMobileNumber" pattern="[0-9]{10}" placeholder="10-digit number">
+                    </div>
+                    <div class="form-group">
+                        <label for="addMotherMobileNumber">Mother's Mobile Number:</label>
+                        <input type="tel" id="addMotherMobileNumber" pattern="[0-9]{10}" placeholder="10-digit number">
+                    </div>
+                    <div class="form-group">
+                        <label for="addGroup1CompletedYear">Group-1 Completed Year:</label>
+                        <input type="number" id="addGroup1CompletedYear" min="1900" max="2100" placeholder="e.g., 2023">
+                    </div>
+                    <div class="form-group">
+                        <label for="addTalents">Talents:</label>
+                        <textarea id="addTalents" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="addAchievements">Achievements:</label>
+                        <textarea id="addAchievements" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="addHobbies">Hobbies:</label>
+                        <textarea id="addHobbies" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="addAge">Age:</label>
+                        <input type="number" id="addAge" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="addClass">Class:</label>
+                        <input type="text" id="addClass">
+                    </div>
+                    <div class="form-group">
+                        <label for="addSchoolName">School Name:</label>
+                        <input type="text" id="addSchoolName">
+                    </div>
+                    <div class="form-group">
+                        <label for="addDateOfEntry">Date of Entry (Auto-filled):</label>
+                        <input type="text" id="addDateOfEntry" readonly disabled>
+                    </div>
+                    <button type="submit">Add Student</button>
+                </form>
+                <p id="addStudentMessage" class="message"></p>
+            </div>
+
+            <div id="updateStudentSection" class="section-content">
+                <h2>Update Student Data</h2>
+                <div class="student-list-container" id="updateStudentList">
+                    <p>Select a batch to load students for update.</p>
+                </div>
+                <p id="updateListMessage" class="message"></p>
+
+                <div id="updateStudentFormContainer" class="sub-section-content" style="display: none;">
+                    <h3>Edit Student Profile (Serial No: <span id="editStudentSerialNumber"></span>)</h3>
+                    <form id="updateStudentForm">
+                        <input type="hidden" id="updateSerialNumberHidden">
+                        <div class="form-group">
+                            <label for="updateStudentName">Student Name <span class="mandatory">*</span>:</label>
+                            <input type="text" id="updateStudentName" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateRollNumber">Roll Number:</label>
+                            <input type="text" id="updateRollNumber" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateDateOfBirth">Date of Birth:</label>
+                            <input type="date" id="updateDateOfBirth" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateAdmissionDate">Admission Date:</label>
+                            <input type="date" id="updateAdmissionDate" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateEmailID">Email ID:</label>
+                            <input type="email" id="updateEmailID" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateFatherName">Father Name:</label>
+                            <input type="text" id="updateFatherName" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateMotherName">Mother Name:</label>
+                            <input type="text" id="updateMotherName" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateFatherMobileNumber">Father's Mobile Number:</label>
+                            <input type="tel" id="updateFatherMobileNumber" pattern="[0-9]{10}" placeholder="10-digit number" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateMotherMobileNumber">Mother's Mobile Number:</label>
+                            <input type="tel" id="updateMotherMobileNumber" pattern="[0-9]{10}" placeholder="10-digit number" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateGroup1CompletedYear">Group-1 Completed Year:</label>
+                            <input type="number" id="updateGroup1CompletedYear" min="1900" max="2100" placeholder="e.g., 2023" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateTalents">Talents:</label>
+                            <textarea id="updateTalents" rows="3" disabled></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateAchievements">Achievements:</label>
+                            <textarea id="updateAchievements" rows="3" disabled></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateHobbies">Hobbies:</label>
+                            <textarea id="updateHobbies" rows="3" disabled></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateAge">Age:</label>
+                            <input type="number" id="updateAge" min="0" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateClass">Class:</label>
+                            <input type="text" id="updateClass" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateSchoolName">School Name:</label>
+                            <input type="text" id="updateSchoolName" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="updateDateOfEntry">Date of Entry (Auto-filled):</label>
+                            <input type="text" id="updateDateOfEntry" readonly disabled>
+                        </div>
+                        <button type="button" id="saveUpdateBtn" style="display: none;">Save Changes</button>
+                    </form>
+                    <p id="updateStudentMessage" class="message"></p>
+                </div>
+            </div>
+
+            <div id="viewPrintStudentSection" class="section-content">
+                <h2>View/Print Student Data</h2>
+                <div class="student-list-container" id="viewPrintStudentList">
+                    <p>Select a batch to load students for viewing.</p>
+                </div>
+                <p id="viewPrintListMessage" class="message"></p>
+
+                <div id="studentProfileDisplay" class="sub-section-content" style="display: none;">
+                    <h3>Student Profile: <span id="profileStudentName"></span></h3>
+                    <div id="profileDetails">
+                        </div>
+                    <div class="profile-footer">
+                        <p>Register Coordinator - Sravani</p>
+                        <p>Last Updated: <span id="profileLastUpdated"></span></p>
+                    </div>
+                    <button onclick="printStudentProfile()">Print Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script >// Replace with your deployed Google Apps Script Web App URL
+const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxdtBDmLF9kTXoqLSHGjIeYFJ8JZV-Fj94DOPQtFy24NAFI0AxZKT38iTCY6DPosJK9/exec'; 
+
+// Helper function to show/hide loading overlay
+function showLoading() {
+    document.getElementById('loadingOverlay').classList.add('active');
+}
+
+function hideLoading() {
+    document.getElementById('loadingOverlay').classList.remove('active');
+}
+
+// Helper function to display messages
+function displayMessage(elementId, message, type) {
+    const messageElement = document.getElementById(elementId);
+    messageElement.textContent = message;
+    messageElement.className = `message ${type}`; // Add type class (success/error)
+    // Clear message after 5 seconds if it's not the login screen message
+    if (elementId !== 'loginMessage') {
+        setTimeout(() => {
+            messageElement.textContent = '';
+            messageElement.className = 'message';
+        }, 5000);
+    }
+}
+
+// Helper function to send POST requests to Apps Script
+async function postData(action, data, messageElementId, buttonElement = null) {
+    showLoading();
+    if (buttonElement) {
+        buttonElement.disabled = true; // Disable button to prevent multiple clicks
+    }
+
+    const formData = new URLSearchParams();
+    formData.append('action', action);
+    for (const key in data) {
+        formData.append(key, data[key]);
+    }
+
+    try {
+        const response = await fetch(APP_SCRIPT_URL, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        });
+        const result = await response.json();
+        hideLoading();
+        if (buttonElement) {
+            buttonElement.disabled = false; // Re-enable button
+        }
+        if (result.success) {
+            displayMessage(messageElementId, result.message, 'success');
+        } else {
+            displayMessage(messageElementId, result.message, 'error');
+        }
+        return result;
+    } catch (error) {
+        hideLoading();
+        if (buttonElement) {
+            buttonElement.disabled = false; // Re-enable button on error
+        }
+        displayMessage(messageElementId, 'An error occurred: ' + error.message, 'error');
+        return { success: false, message: 'Client-side error: ' + error.message };
+    }
+}
+
+// Helper function to send GET requests to Apps Script
+async function getData(action, data, messageElementId) {
+    showLoading();
+    const url = new URL(APP_SCRIPT_URL);
+    url.searchParams.append('action', action);
+    for (const key in data) {
+        url.searchParams.append(key, data[key]);
+    }
+
+    try {
+        const response = await fetch(url.toString());
+        const result = await response.json();
+        hideLoading();
+        if (!result.success) {
+            displayMessage(messageElementId, result.message, 'error');
+        }
+        return result;
+    } catch (error) {
+        hideLoading();
+        displayMessage(messageElementId, 'An error occurred: ' + error.message, 'error');
+        return { success: false, message: 'Client-side error: ' + error.message };
+    }
+}
+
+// --- Portal Main Menu & Batch Selection Logic ---
+let currentSelectedBatch = ''; // Global variable to store selected batch
+
+function hideAllSections() {
+    document.querySelectorAll('.section-content').forEach(section => {
+        section.style.display = 'none';
+    });
+    // Also hide any specific sub-section content that might be showing
+    document.getElementById('updateStudentFormContainer').style.display = 'none';
+    document.getElementById('studentProfileDisplay').style.display = 'none';
+}
+
+function showSection(sectionId) {
+    if (!currentSelectedBatch) {
+        displayMessage('batchMessage', 'Please select a batch first!', 'error');
+        return;
+    }
+    hideAllSections();
+    document.getElementById(sectionId).style.display = 'block';
+
+    // Specific actions when a section is shown
+    if (sectionId === 'addStudentSection') {
+        // Auto-fill Date of Entry for Add Student form
+        document.getElementById('addDateOfEntry').value = new Date().toLocaleDateString('en-US');
+        // Clear previous messages and form
+        document.getElementById('addStudentForm').reset();
+        displayMessage('addStudentMessage', '', '');
+    } else if (sectionId === 'updateStudentSection') {
+        loadStudentsForUpdate();
+    } else if (sectionId === 'viewPrintStudentSection') {
+        loadStudentsForViewPrint();
+    } else if (sectionId === 'checkUnfilledSection') {
+        checkUnfilledData();
+    }
+}
+
+
+// --- Option 2: Update Student Data ---
+async function loadStudentsForUpdate() {
+    const studentListContainer = document.getElementById('updateStudentList');
+    studentListContainer.innerHTML = '<p>Loading students...</p>';
+    displayMessage('updateListMessage', '', '');
+    document.getElementById('updateStudentFormContainer').style.display = 'none'; // Hide form if visible
+
+    const result = await getData('getStudents', { batch: currentSelectedBatch }, 'updateListMessage');
+
+    if (result.success && result.students && result.students.length > 0) {
+        studentListContainer.innerHTML = ''; // Clear loading message
+        result.students.forEach(student => {
+            const studentCard = document.createElement('div');
+            studentCard.className = 'student-card';
+            studentCard.innerHTML = `
+                <span>${student.studentName} (Serial No: ${student.serialNumber})</span>
+                <button data-serial-number="${student.serialNumber}">Edit</button>
+            `;
+            studentCard.querySelector('button').addEventListener('click', (e) => editStudent(e.target.dataset.serialNumber));
+            studentListContainer.appendChild(studentCard);
+        });
+    } else if (result.success) {
+        studentListContainer.innerHTML = '<p>No students found in this batch.</p>';
+        displayMessage('updateListMessage', 'No students to update for ' + currentSelectedBatch + '.', 'info');
+    } else {
+        studentListContainer.innerHTML = '<p>Error loading students.</p>';
+        // Message already displayed by getData
+    }
+}
+
+async function editStudent(serialNumber) {
+    showLoading();
+    const result = await getData('getStudentProfile', { batch: currentSelectedBatch, serialNumber: serialNumber }, 'updateStudentMessage');
+    hideLoading();
+
+    const formContainer = document.getElementById('updateStudentFormContainer');
+    const updateForm = document.getElementById('updateStudentForm');
+    const saveButton = document.getElementById('saveUpdateBtn');
+
+    if (result.success && result.profile) {
+        const profile = result.profile;
+        document.getElementById('editStudentSerialNumber').textContent = serialNumber;
+        document.getElementById('updateSerialNumberHidden').value = serialNumber;
+
+        // Populate form fields
+        for (const key in profile) {
+            const inputId = `update${key.charAt(0).toUpperCase() + key.slice(1)}`;
+            const inputElement = document.getElementById(inputId);
+            if (inputElement) {
+                // Special handling for date inputs to ensure correct format
+                if (inputElement.type === 'date' && profile[key]) {
+                    const dateValue = new Date(profile[key]);
+                    if (!isNaN(dateValue.getTime())) { // Check if it's a valid date
+                        inputElement.value = dateValue.toISOString().split('T')[0];
+                    } else {
+                        inputElement.value = ''; // Clear if invalid date string
+                    }
+                } else {
+                    inputElement.value = profile[key];
+                }
+                inputElement.disabled = false; // Enable fields for editing
+            }
+        }
+        document.getElementById('updateDateOfEntry').disabled = true; // Keep Date of Entry disabled
+        document.getElementById('updateStudentName').disabled = true; // Keep Student Name disabled
+        document.getElementById('updateAdmissionDate').disabled = false; // Enable Admission Date
+        document.getElementById('updateDateOfBirth').disabled = false; // Enable Date of Birth
+        
+        formContainer.style.display = 'block';
+        saveButton.style.display = 'block';
+
+    } else {
+        formContainer.style.display = 'none';
+        saveButton.style.display = 'none';
+        // Message already displayed by getData
+    }
+}
+
+
+// --- Option 3: View/Print Student Data ---
+async function loadStudentsForViewPrint() {
+    const studentListContainer = document.getElementById('viewPrintStudentList');
+    studentListContainer.innerHTML = '<p>Loading students...</p>';
+    displayMessage('viewPrintListMessage', '', '');
+    document.getElementById('studentProfileDisplay').style.display = 'none'; // Hide profile if visible
+
+    const result = await getData('getStudents', { batch: currentSelectedBatch }, 'viewPrintListMessage');
+
+    if (result.success && result.students && result.students.length > 0) {
+        studentListContainer.innerHTML = ''; // Clear loading message
+        result.students.forEach(student => {
+            const studentCard = document.createElement('div');
+            studentCard.className = 'student-card';
+            studentCard.innerHTML = `
+                <span style="cursor: pointer; color: #007bff;" data-serial-number="${student.serialNumber}">${student.studentName} (Serial No: ${student.serialNumber})</span>
+                <button data-serial-number="${student.serialNumber}" class="view-profile-btn">View Profile</button>
+            `;
+            studentCard.querySelector('span').addEventListener('click', (e) => viewStudentProfile(e.target.dataset.serialNumber));
+            studentCard.querySelector('button.view-profile-btn').addEventListener('click', (e) => viewStudentProfile(e.target.dataset.serialNumber));
+            studentListContainer.appendChild(studentCard);
+        });
+    } else if (result.success) {
+        studentListContainer.innerHTML = '<p>No students found in this batch.</p>';
+        displayMessage('viewPrintListMessage', 'No students to view for ' + currentSelectedBatch + '.', 'info');
+    } else {
+        studentListContainer.innerHTML = '<p>Error loading students.</p>';
+        // Message already displayed by getData
+    }
+}
+
+async function viewStudentProfile(serialNumber) {
+    showLoading();
+    const result = await getData('getStudentProfile', { batch: currentSelectedBatch, serialNumber: serialNumber }, 'viewPrintListMessage');
+    hideLoading();
+
+    const profileDisplay = document.getElementById('studentProfileDisplay');
+    const profileDetails = document.getElementById('profileDetails');
+
+    if (result.success && result.profile) {
+        const profile = result.profile;
+        document.getElementById('profileStudentName').textContent = profile.studentName || 'N/A';
+        profileDetails.innerHTML = ''; // Clear previous profile
+
+        const headerFields = [ // Order of display
+            { label: 'Serial Number', key: 'serialNumber' },
+            { label: 'Student Name', key: 'studentName' },
+            { label: 'Roll Number', key: 'rollNumber' }, // New field in display
+            { label: 'Date of Birth', key: 'dateOfBirth' },
+            { label: 'Admission Date', key: 'admissionDate' },
+            { label: 'Email ID', key: 'emailID' },
+            { label: 'Father Name', key: 'fatherName' },
+            { label: 'Mother Name', key: 'motherName' },
+            { label: "Father's Mobile", key: 'fatherMobileNumber' },
+            { label: "Mother's Mobile", key: 'motherMobileNumber' },
+            { label: 'Group-1 Completed Year', key: 'group1CompletedYear' },
+            { label: 'Talents', key: 'talents' },
+            { label: 'Achievements', key: 'achievements' },
+            { label: 'Hobbies', key: 'hobbies' },
+            { label: 'Age', key: 'age' },
+            { label: 'Class', key: 'class' },
+            { label: 'School Name', key: 'schoolName' },
+            { label: 'Date of Entry', key: 'dateOfEntry' }
+        ];
+
+        headerFields.forEach(field => {
+            const p = document.createElement('p');
+            const value = profile[field.key] || 'N/A'; // Use 'N/A' for empty fields
+            p.innerHTML = `<strong>${field.label}:</strong> <span>${value}</span>`;
+            profileDetails.appendChild(p);
+        });
+
+        document.getElementById('profileLastUpdated').textContent = new Date().toLocaleDateString('en-US'); // Use current date for "Last Updated"
+        profileDisplay.style.display = 'block';
+
+    } else {
+        profileDisplay.style.display = 'none';
+        // Message already displayed by getData
+    }
+}
+
+function printStudentProfile() {
+    // Hide all main content except the student profile display
+    document.getElementById('portalContent').style.display = 'none';
+    const originalBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden'; // Hide scrollbars during print prep
+
+    // Create a new div to hold content for printing
+    const printArea = document.createElement('div');
+    printArea.style.padding = '20px'; // Add some padding for print layout
+    printArea.style.fontFamily = 'Arial, sans-serif';
+
+    // Clone the profile display content
+    const profileContentClone = document.getElementById('studentProfileDisplay').cloneNode(true);
+
+    // Remove the print button from the cloned content
+    const printButton = profileContentClone.querySelector('button');
+    if (printButton) {
+        printButton.remove();
+    }
+
+    printArea.appendChild(profileContentClone);
+
+    // Append the print area to the body, mark it as print-only
+    printArea.classList.add('print-only');
+    document.body.appendChild(printArea);
+
+    window.print(); // Trigger print dialog
+
+    // Clean up after printing
+    document.body.removeChild(printArea);
+    document.body.style.overflow = originalBodyOverflow; // Restore scrollbars
+
+    // Restore the original portal content display
+    document.getElementById('portalContent').style.display = 'block';
+    // Ensure the correct section is displayed after print
+    showSection('viewPrintStudentSection'); // Go back to the view section
+}
+
+
+// --- Option 4: Check Unfilled Data ---
+async function checkUnfilledData() {
+    const unfilledListContainer = document.getElementById('unfilledStudentsList');
+    unfilledListContainer.innerHTML = '<p>Checking for unfilled data...</p>';
+    displayMessage('unfilledMessage', '', '');
+
+    const result = await getData('getUnfilledData', { batch: currentSelectedBatch }, 'unfilledMessage');
+
+    if (result.success && result.unfilled && result.unfilled.length > 0) {
+        unfilledListContainer.innerHTML = ''; // Clear loading message
+        result.unfilled.forEach(student => {
+            const unfilledCard = document.createElement('div');
+            unfilledCard.className = 'unfilled-student-card';
+            let missingFieldsHtml = '<ul>';
+            student.missingFields.forEach(field => {
+                missingFieldsHtml += `<li>${field}</li>`;
+            });
+            missingFieldsHtml += '</ul>';
+
+            unfilledCard.innerHTML = `
+                <p><strong>${student.studentName}</strong> (Serial No: ${student.serialNumber}) has missing fields:</p>
+                ${missingFieldsHtml}
+            `;
+            unfilledListContainer.appendChild(unfilledCard);
+        });
+    } else if (result.success) {
+        unfilledListContainer.innerHTML = '<p>All students in this batch have complete data!</p>';
+        displayMessage('unfilledMessage', 'Great! All students in ' + currentSelectedBatch + ' have complete data.', 'success');
+    } else {
+        unfilledListContainer.innerHTML = '<p>Error checking unfilled data.</p>';
+        // Message already displayed by getData
+    }
+}
+
+// Function to attach all event listeners
+function attachEventListeners() {
+    // Login Logic
+    document.getElementById('loginButton').addEventListener('click', async () => {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const loginMessage = 'loginMessage';
+
+        if (!username || !password) {
+            displayMessage(loginMessage, 'Please enter both username and password.', 'error');
+            return;
+        }
+
+        const result = await postData('login', { username, password }, loginMessage, document.getElementById('loginButton'));
+
+        if (result.success) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('portalContent').style.display = 'block';
+            displayMessage(loginMessage, '', '');
+        }
+    });
+
+    document.getElementById('password').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            document.getElementById('loginButton').click();
+        }
+    });
+
+    // Batch Selection Logic
+    document.getElementById('batchSelect').addEventListener('change', function() {
+        currentSelectedBatch = this.value;
+        if (currentSelectedBatch) {
+            document.getElementById('checkUnfilledBtn').disabled = false;
+            document.getElementById('addStudentBtn').disabled = false;
+            document.getElementById('updateStudentBtn').disabled = false;
+            document.getElementById('viewPrintStudentBtn').disabled = false;
+            displayMessage('batchMessage', '', '');
+            hideAllSections();
+        } else {
+            document.getElementById('checkUnfilledBtn').disabled = true;
+            document.getElementById('addStudentBtn').disabled = true;
+            document.getElementById('updateStudentBtn').disabled = true;
+            document.getElementById('viewPrintStudentBtn').disabled = true;
+            displayMessage('batchMessage', 'Please select a batch to proceed.', 'error');
+            hideAllSections();
+        }
+    });
+
+    // Main Menu Buttons
+    document.getElementById('checkUnfilledBtn').addEventListener('click', () => showSection('checkUnfilledSection'));
+    document.getElementById('addStudentBtn').addEventListener('click', () => showSection('addStudentSection'));
+    document.getElementById('updateStudentBtn').addEventListener('click', () => showSection('updateStudentSection'));
+    document.getElementById('viewPrintStudentBtn').addEventListener('click', () => showSection('viewPrintStudentSection'));
+
+    // Add Student Form Submission
+    document.getElementById('addStudentForm').addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent default form submission
+        const form = event.target;
+        const data = { batch: currentSelectedBatch };
+
+        document.querySelectorAll('#addStudentForm input, #addStudentForm textarea, #addStudentForm select').forEach(input => {
+            if (input.id && input.value) {
+                const fieldName = input.id.replace('add', '');
+                data[fieldName.charAt(0).toLowerCase() + fieldName.slice(1)] = input.value;
+            }
+        });
+
+        data.serialNumber = document.getElementById('addSerialNumber').value;
+        data.dateOfEntry = document.getElementById('addDateOfEntry').value;
+
+        const result = await postData('addStudent', data, 'addStudentMessage', form.querySelector('button[type="submit"]'));
+
+        if (result.success) {
+            form.reset(); // Clear the form
+            document.getElementById('addDateOfEntry').value = new Date().toLocaleDateString('en-US'); // Reset auto-filled date
+        }
+    });
+
+    // Update Student Save Button
+    document.getElementById('saveUpdateBtn').addEventListener('click', async () => {
+        const updateForm = document.getElementById('updateStudentForm');
+        const data = { batch: currentSelectedBatch };
+
+        document.querySelectorAll('#updateStudentForm input:not([disabled]), #updateStudentForm textarea:not([disabled]), #updateStudentForm select:not([disabled])').forEach(input => {
+            if (input.id && input.value) {
+                const fieldName = input.id.replace('update', '');
+                data[fieldName.charAt(0).toLowerCase() + fieldName.slice(1)] = input.value;
+            }
+        });
+        data.serialNumber = document.getElementById('updateSerialNumberHidden').value;
+
+        const result = await postData('updateStudent', data, 'updateStudentMessage', document.getElementById('saveUpdateBtn'));
+
+        if (result.success) {
+            loadStudentsForUpdate();
+            document.getElementById('updateStudentFormContainer').style.display = 'none';
+        }
+    });
+
+    // Event listener for the print button (if it exists)
+    const printButton = document.querySelector('#studentProfileDisplay button');
+    if (printButton) {
+        printButton.onclick = printStudentProfile; // Assign the function
+    }
+}
+
+
+// Initial state and attaching event listeners on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('portalContent').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'flex'; 
+    document.getElementById('username').focus(); 
+    
+    // Call attachEventListeners ONLY ONCE here
+    attachEventListeners(); 
+});
+</script>
+</body>
+</html>
